@@ -20,7 +20,7 @@
  ********************************************************************
  ********************************************************************/
 
-#include "hungarian.h"
+#include "hungarian.hpp"
 
 std::vector< std::vector<int> > array_to_matrix(int* m, int rows, int cols) {
   int i,j;

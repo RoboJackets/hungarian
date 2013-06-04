@@ -40,6 +40,7 @@ typedef enum {
 } ASSIGN;
 
 
+
 class Hungarian
 {
 

@@ -22,7 +22,7 @@
 
 #include <algorithm>
 #include <limits>
-#include "hungarian.h"
+#include "hungarian.hpp"
 
 #define verbose (0)
 
