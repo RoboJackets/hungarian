@@ -1,6 +1,5 @@
-
 CC=g++
-CC_FLAGS=
+CC_FLAGS=-std=c++11
 PROG=hungarian
 SRC=hungarian.cpp test.cpp
 
