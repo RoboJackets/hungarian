@@ -4,9 +4,11 @@ jobs:
     docker:
       - image: circleci/python:stretch
     steps:
+      - run: sudo apt install -y cmake
       - checkout
+      - run: cmake .
       - run: make
-      - run: ./hungarian
+      - run: ./demo
 
 workflows:
   version: 2
