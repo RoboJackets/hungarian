@@ -20,44 +20,69 @@
  ********************************************************************
  ********************************************************************/
 
+#include <iostream>
 #include "hungarian.hpp"
 
-std::vector<std::vector<int>> array_to_matrix(int *m, int rows, int cols) {
-  int i, j;
-  std::vector<std::vector<int>> r;
-  r.resize(rows, std::vector<int>(cols, 0));
+using namespace std;
 
-  for (i = 0; i < rows; i++) {
-    for (j = 0; j < cols; j++)
-      r[i][j] = m[i * cols + j];
+const Hungarian::Matrix EXAMPLE1 = {
+    {100, 100, 1},
+    {100, 2, 21512},
+    {1, 4, 9852},
+    {6, 30252, 400},
+};
+
+const Hungarian::Matrix SOLUTION1 = {
+    {0, 0, 1, 0},
+    {0, 1, 0, 0},
+    {1, 0, 0, 0},
+    {0, 0, 0, 1},
+};
+
+// clang-format off
+const Hungarian::Matrix EXAMPLE2 = {
+  {100, 1},
+  {100, 12},
+  {1, 4},
+  {6, 30252}
+};
+
+// TODO: this isn't right
+const Hungarian::Matrix SOLUTION2 = {
+  {0,1,0,0},
+  {0,0,1,0},
+  {1,0,0,0},
+  {0,0,0,1},
+};
+// clang-format on
+
+bool runExample(const Hungarian::Matrix& cost,
+                const Hungarian::Matrix& solution) {
+  Hungarian::Result r = Hungarian::Solve(cost, Hungarian::MODE_MINIMIZE_COST);
+
+  cerr << "cost-matrix:";
+  Hungarian::PrintMatrix(r.cost);
+
+  if (!r.success) {
+    cerr << "Failed to find solution :(" << endl;
+    return false;
   }
-  return r;
+
+  cerr << "assignment:";
+  Hungarian::PrintMatrix(r.assignment);
+
+  const bool correct = (r.assignment == solution);
+  cerr << "Solution correct? " << correct << endl;
+
+  return correct;
 }
 
 int main() {
-  /* an example cost matrix */
-  int r[4 * 3] = {100,   100,     1,
-                  100,     2, 21512,
-                    1,     4,  9852,
-                    6, 30252,   400};
-  std::vector<std::vector<int>> m = array_to_matrix(r, 4, 3);
+  bool success = true;
 
-  /* initialize the gungarian_problem using the cost matrix*/
-  Hungarian hungarian(m, 4, 3, HUNGARIAN_MODE_MINIMIZE_COST);
+  if (!runExample(EXAMPLE1, SOLUTION1)) success = false;
+  cerr << "--------------------" << endl;
+  if (!runExample(EXAMPLE2, SOLUTION2)) success = false;
 
-  // fprintf(stderr, "assignement matrix has a now a size %d rows and %d
-  // columns.\n\n",  hungarian.ro,matrix_size);
-
-  /* some output */
-  fprintf(stderr, "cost-matrix:");
-  hungarian.print_cost();
-
-  /* solve the assignement problem */
-  hungarian.solve();
-
-  /* some output */
-  fprintf(stderr, "assignment:");
-  hungarian.print_assignment();
-
-  return 0;
+  return success ? 0 : 1;
 }

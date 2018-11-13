@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_library(hungarian hungarian.cpp hungarian.hpp)
 
-add_executable(demo test.cpp)
-target_link_libraries(demo hungarian)
+add_executable(test_cases test.cpp)
+target_link_libraries(test_cases hungarian)

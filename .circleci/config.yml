@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: cmake .
       - run: make
-      - run: ./demo
+      - run: ./test_cases
 
 workflows:
   version: 2
