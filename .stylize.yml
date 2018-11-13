@@ -1,0 +1,8 @@
+formatters:
+    .hpp: clang
+    .cpp: clang
+formatter_args:
+    clang:
+        - --style=file
+exclude:
+    - build
