@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  compile:
+    docker:
+      - image: circleci/python:stretch
+    steps:
+      - checkout
+      - run: make
+      - run: ./hungarian
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - compile
